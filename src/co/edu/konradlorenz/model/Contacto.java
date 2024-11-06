@@ -2,13 +2,12 @@
 package co.edu.konradlorenz.model;
 
 public class Contacto {
-    private String nombre, direccion, correo;
-    private long telefono;
+    private String nombre, direccion, correo, telefono;
 
     public Contacto() {
     }
 
-    public Contacto(String nombre, String direccion, String correo, long telefono) {
+    public Contacto(String nombre, String direccion, String correo, String telefono) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.correo = correo;
@@ -39,11 +38,11 @@ public class Contacto {
         this.correo = correo;
     }
 
-    public long getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(long telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
