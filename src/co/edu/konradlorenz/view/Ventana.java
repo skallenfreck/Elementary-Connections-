@@ -21,8 +21,10 @@ public class Ventana {
                 + "\n<> 2. Modificar contacto    <>"
                 + "\n<> 3. Mostrar contactos     <>"
                 + "\n<> 4. Buscar contacto       <>"
-                + "\n<> 5. Eliminar contacto     <>"
-                + "\n<> 6. Salir                 <>"
+                + "\n<> 5. Realizar llamada      <>"
+                + "\n<> 6. Enviar mensaje        <>"
+                + "\n<> 7. Eliminar contacto     <>"
+                + "\n<> 8. Salir                 <>"
                 + "\n<><><><><><><><><><><><><><><>");
         byte opcion = sc.nextByte();
         sc.nextLine();
@@ -40,10 +42,5 @@ public class Ventana {
         byte opcion = sc.nextByte();
         sc.nextLine();
         return opcion;
-    }
-
-    public static long pedirLong(String mensaje) {
-        System.out.println(mensaje);
-        return sc.nextLong();
     }
 }

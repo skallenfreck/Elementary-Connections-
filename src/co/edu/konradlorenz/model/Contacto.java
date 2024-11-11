@@ -45,6 +45,18 @@ public class Contacto {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+    
+    public String llamar(){
+        String llamado = "Llamando a "+nombre
+                +"\n"+telefono;
+        return llamado;
+    }
+    
+    public String enviarMensaje(String mensaje){
+        String envio = "Mensaje: "+mensaje
+                +"\n enviado exitosamente a "+nombre;
+        return envio;
+    }
 
     @Override
     public String toString() {

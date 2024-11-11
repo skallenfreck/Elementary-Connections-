@@ -26,10 +26,16 @@ public class Controlador {
                 case 4: // Buscar contacto
                     buscarContacto();
                     break;
-                case 5: // Eliminar contacto
+                case 5: // Llamar
+                    realizarLlamada();
+                    break;
+                case 6: // Mensaje
+                    enviarMensaje();
+                    break;
+                case 7: // Eliminar contacto
                     eliminarContacto();
                     break;
-                case 6://salir
+                case 8://salir
                     salir = true;
                     Ventana.mostrarMensaje("Saliendo del programa...");
                     break;
@@ -128,6 +134,35 @@ public class Controlador {
                 arbol.eliminarContacto(nombreEliminar);
                 Ventana.mostrarMensaje("Contacto eliminado correctamente");
             } else {
+                Ventana.mostrarMensaje("Contacto no encontrado.");
+            }
+        }
+    }
+    
+    public void realizarLlamada(){
+        if(arbol.getListaContactos().isEmpty()){
+            Ventana.mostrarMensaje("No hay contactos para llamar.");
+        }else{
+            String nombre = Ventana.pedirString("Ingrese el nombre del contacto para llamar: ");
+            Contacto contacto = arbol.buscarContacto(nombre);
+            if(contacto != null){
+                Ventana.mostrarMensaje(contacto.llamar());
+            }else{
+                Ventana.mostrarMensaje("Contacto no encontrado.");
+            }
+        }
+    }
+    
+    public void enviarMensaje(){
+        if(arbol.getListaContactos().isEmpty()){
+            Ventana.mostrarMensaje("No hay contactos.");
+        }else{
+            String nombre = Ventana.pedirString("Ingrese el nombre del contacto para enviar un mensaje: ");
+            Contacto contacto = arbol.buscarContacto(nombre);
+            if(contacto != null){
+                String mensaje = Ventana.pedirString("Ingrese el mensaje a enviar:");
+                Ventana.mostrarMensaje(contacto.enviarMensaje(mensaje));
+            }else{
                 Ventana.mostrarMensaje("Contacto no encontrado.");
             }
         }
