@@ -3,15 +3,17 @@ package co.edu.konradlorenz.controller;
 import co.edu.konradlorenz.model.ArbolBinario;
 import co.edu.konradlorenz.model.Contacto;
 import co.edu.konradlorenz.view.Ventana;
+import java.util.ArrayList;
 
 public class Controlador {
-
+    
     private ArbolBinario arbol = new ArbolBinario();
-
+    
     public void run() {
         boolean salir = false;
         while (!salir) {
             int opcion = Ventana.menu();
+            ejemplos();
             switch (opcion) {
                 case 1: //Agregar Contacto
                     agregarContacto();
@@ -19,7 +21,7 @@ public class Controlador {
                 case 2: // Modificar contacto
                     switchEditar(opcion);
                     break;
-
+                
                 case 3: // Mostrar Contactos
                     mostrarContacto();
                     break;
@@ -27,10 +29,10 @@ public class Controlador {
                     buscarContacto();
                     break;
                 case 5: // Llamar
-                    realizarLlamada();
+                    realizarLlamada(opcion);
                     break;
                 case 6: // Mensaje
-                    enviarMensaje();
+                    enviarMensaje(opcion);
                     break;
                 case 7: // Eliminar contacto
                     eliminarContacto();
@@ -43,16 +45,24 @@ public class Controlador {
                     Ventana.mostrarMensaje("Opcion invalida, por favor intente de nuevo;");
             }
         }
-
+        
     }
-
+    
+    public void ejemplos() {
+        arbol.agregarContacto(new Contacto("Juan Perez", "Calle 123", "juan@example.com", "3001234567", 15));
+        arbol.agregarContacto(new Contacto("Maria Gomez", "Carrera 45", "maria@example.com", "3107654321", 8));
+        arbol.agregarContacto(new Contacto("Carlos Lopez", "Avenida 9", "carlos@example.com", "3159876543", 20));
+        arbol.agregarContacto(new Contacto("Ana Torres", "Calle 8", "ana@example.com", "3201239876", 5));
+        arbol.agregarContacto(new Contacto("Luis Ramírez", "Transversal 22", "luis@example.com", "3004567890", 12));
+    }
+    
     public void switchEditar(int opcion) {
         if (arbol.getListaContactos().isEmpty()) {
             Ventana.mostrarMensaje("No hay contactos para editar.");
         } else {
             String nombreModificar = Ventana.pedirString("Ingrese el nombre del contacto a editar");
-            if (arbol.buscarContacto(nombreModificar) != null) {
-                Contacto contactoModificar = arbol.buscarContacto(nombreModificar);
+            if (arbol.buscarContactoNom(nombreModificar) != null) {
+                Contacto contactoModificar = arbol.buscarContactoNom(nombreModificar);
                 while (true) {
                     opcion = Ventana.menuEditar();
                     switch (opcion) {
@@ -86,11 +96,12 @@ public class Controlador {
                 Ventana.mostrarMensaje("Contacto no encontrado.");
             }
         }
-
+        
     }
-
+    
     public void agregarContacto() {
         Contacto nuevoContacto = new Contacto();
+        nuevoContacto.setCantLlamadas(0);
         String var = Ventana.pedirString("Ingrese por favor el nombre del contacto: ");
         nuevoContacto.setNombre(var);
         var = Ventana.pedirString("Ingrese por favor el correo del contacto: ");
@@ -102,7 +113,7 @@ public class Controlador {
         arbol.agregarContacto(nuevoContacto);
         Ventana.mostrarMensaje("Contacto agregado correctamente");
     }
-
+    
     public void mostrarContacto() {
         if (arbol.getListaContactos().isEmpty()) {
             Ventana.mostrarMensaje("No hay contactos creados.");
@@ -110,13 +121,13 @@ public class Controlador {
             arbol.mostrarContactos();
         }
     }
-
+    
     public void buscarContacto() {
         if (arbol.getListaContactos().isEmpty()) {
             Ventana.mostrarMensaje("No hay contactos para buscar.");
         } else {
             String nombreBusqueda = Ventana.pedirString("Ingrese el nombre del contacto que desea buscar");
-            Contacto contactoBusqueda = arbol.buscarContacto(nombreBusqueda);
+            Contacto contactoBusqueda = arbol.buscarContactoNom(nombreBusqueda);
             if (contactoBusqueda != null) {
                 Ventana.mostrarMensaje(contactoBusqueda.toString());
             } else {
@@ -124,13 +135,13 @@ public class Controlador {
             }
         }
     }
-
+    
     public void eliminarContacto() {
         if (arbol.getListaContactos().isEmpty()) {
             Ventana.mostrarMensaje("No hay contactos para eliminar.");
         } else {
             String nombreEliminar = Ventana.pedirString("Ingrese el nombre del contacto que desea eliminar");
-            if (arbol.buscarContacto(nombreEliminar) != null) {
+            if (arbol.buscarContactoNom(nombreEliminar) != null) {
                 arbol.eliminarContacto(nombreEliminar);
                 Ventana.mostrarMensaje("Contacto eliminado correctamente");
             } else {
@@ -139,31 +150,112 @@ public class Controlador {
         }
     }
     
-    public void realizarLlamada(){
-        if(arbol.getListaContactos().isEmpty()){
+    public void realizarLlamada(int opcion) {
+        if (arbol.getListaContactos().isEmpty()) {
             Ventana.mostrarMensaje("No hay contactos para llamar.");
-        }else{
-            String nombre = Ventana.pedirString("Ingrese el nombre del contacto para llamar: ");
-            Contacto contacto = arbol.buscarContacto(nombre);
-            if(contacto != null){
-                Ventana.mostrarMensaje(contacto.llamar());
-            }else{
-                Ventana.mostrarMensaje("Contacto no encontrado.");
+        } else {
+            while (true) {
+                opcion = Ventana.menuLlamada();
+                switch (opcion) {
+                    case 1:
+                        contactosFavoritos();
+                        String nombre = Ventana.pedirString("Ingrese el nombre del contacto para llamar: ");
+                        Contacto contactoUno = arbol.buscarContactoNom(nombre);
+                        if (contactoUno != null) {
+                            Ventana.mostrarMensaje(contactoUno.llamar());
+                            contactoUno.setCantLlamadas(contactoUno.getCantLlamadas() + 1);
+                        } else {
+                            Ventana.mostrarMensaje("Contacto no encontrado.");
+                        }
+                        break;
+                    case 2:
+                        contactosFavoritos();
+                        String telefono = Ventana.pedirString("Ingrese el telefono del contacto para llamar: ");
+                        Contacto contactoDos = arbol.buscarContactoNum(telefono);
+                        if (contactoDos != null) {
+                            Ventana.mostrarMensaje(contactoDos.llamar());
+                            contactoDos.setCantLlamadas(contactoDos.getCantLlamadas() + 1);
+                        }else{
+                            Ventana.mostrarMensaje("Contacto no encontrado.");
+                        }
+                        break;
+                    case 3:
+                        Ventana.mostrarMensaje("Saliendo del menú <><><>Llamar a un contacto<><><>");
+                        break;
+                    default:
+                        Ventana.mostrarMensaje("Opción invalida, intente otra vez.");
+                }
+                if (opcion == 3) {
+                    break;
+                }
             }
         }
     }
     
-    public void enviarMensaje(){
-        if(arbol.getListaContactos().isEmpty()){
-            Ventana.mostrarMensaje("No hay contactos.");
-        }else{
-            String nombre = Ventana.pedirString("Ingrese el nombre del contacto para enviar un mensaje: ");
-            Contacto contacto = arbol.buscarContacto(nombre);
-            if(contacto != null){
-                String mensaje = Ventana.pedirString("Ingrese el mensaje a enviar:");
-                Ventana.mostrarMensaje(contacto.enviarMensaje(mensaje));
-            }else{
-                Ventana.mostrarMensaje("Contacto no encontrado.");
+    public void enviarMensaje(int opcion) {
+        if (arbol.getListaContactos().isEmpty()) {
+            Ventana.mostrarMensaje("No hay contactos para llamar.");
+        } else {
+            while (true) {
+                opcion = Ventana.menuMensaje();
+                switch (opcion) {
+                    case 1:
+                        contactosFavoritos();
+                        String nombre = Ventana.pedirString("Ingrese el nombre del contacto enviar mensaje: ");
+                        Contacto contactoUno = arbol.buscarContactoNom(nombre);
+                        if (contactoUno != null) {
+                            String mensaje= Ventana.pedirString("Ingrese el mensaje que desea enviar");
+                            Ventana.mostrarMensaje(contactoUno.enviarMensaje(mensaje));
+                            contactoUno.setCantLlamadas(contactoUno.getCantLlamadas() + 1);
+                        } else {
+                            Ventana.mostrarMensaje("Contacto no encontrado.");
+                        }
+                        break;
+                    case 2:
+                        contactosFavoritos();
+                        String telefono = Ventana.pedirString("Ingrese el telefono del contacto para enviar mensaje: ");
+                        Contacto contactoDos = arbol.buscarContactoNum(telefono);
+                        if (contactoDos != null) {
+                            String mensaje= Ventana.pedirString("Ingrese el mensaje que desea enviar");
+                            Ventana.mostrarMensaje(contactoDos.enviarMensaje(mensaje));
+                            contactoDos.setCantLlamadas(contactoDos.getCantLlamadas() + 1);
+                        }else{
+                            Ventana.mostrarMensaje("Contacto no encontrado.");  
+                        }
+                        break;
+                    case 3:
+                        Ventana.mostrarMensaje("Saliendo del menú <><><>Enviar mensaje a un contacto<><><>");
+                        break;
+                    default:
+                        Ventana.mostrarMensaje("Opción invalida, intente otra vez.");
+                }
+                if (opcion == 3) {
+                    break;
+                }
+            }
+        }
+    }
+    
+    public void contactosFavoritos() {
+        if (arbol.getListaContactos().isEmpty()) {
+            Ventana.mostrarMensaje("No se ha comunicado con ningún contacto hasta ahora.");
+        } else {
+            ArrayList<Contacto> contactosComparar = new ArrayList<>(arbol.getListaContactos().values());
+            
+            for (int i = 0; i < contactosComparar.size() - 1; i++) {
+                for (int j = i + 1; j < contactosComparar.size(); j++) {
+                    if (contactosComparar.get(i).getCantLlamadas() < contactosComparar.get(j).getCantLlamadas()) {
+                        Contacto temp = contactosComparar.get(i);
+                        contactosComparar.set(i, contactosComparar.get(j));
+                        contactosComparar.set(j, temp);
+                    }
+                }
+            }
+            
+            Ventana.mostrarMensaje("Tus contactos más frecuentes son: ");
+            for (int k = 0; k < contactosComparar.size() && k < 3; k++) {
+                Ventana.mostrarMensaje("[" + (k + 1) + "] " + contactosComparar.get(k).getNombre()
+                        + " con un total de " + contactosComparar.get(k).getCantLlamadas() + " veces que te has comunicado.");
             }
         }
     }

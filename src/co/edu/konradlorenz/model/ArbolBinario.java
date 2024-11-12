@@ -62,8 +62,17 @@ public class ArbolBinario {
         return nodo; // Retornar el nodo actual después de la operación
     }
 
-    public Contacto buscarContacto(String nombre) {
+    public Contacto buscarContactoNom(String nombre) {
         return listaContactos.get(nombre);
+    }
+    
+    public Contacto buscarContactoNum(String telefono){
+        for (Contacto contacto : listaContactos.values()) {
+            if (contacto.getTelefono().equalsIgnoreCase(telefono)) {
+                return contacto;
+            }
+        }
+        return null;
     }
 
     //submenu editar todo:)
