@@ -49,11 +49,11 @@ public class Controlador {
     }
     
     public void ejemplos() {
-        arbol.agregarContacto(new Contacto("Juan Perez", "Calle 123", "juan@example.com", "3001234567", 15));
-        arbol.agregarContacto(new Contacto("Maria Gomez", "Carrera 45", "maria@example.com", "3107654321", 8));
-        arbol.agregarContacto(new Contacto("Carlos Lopez", "Avenida 9", "carlos@example.com", "3159876543", 20));
-        arbol.agregarContacto(new Contacto("Ana Torres", "Calle 8", "ana@example.com", "3201239876", 5));
-        arbol.agregarContacto(new Contacto("Luis Ramírez", "Transversal 22", "luis@example.com", "3004567890", 12));
+        arbol.agregarContacto(new Contacto("Juan Perez", "Calle 123", "juan@example.com", "3001234567", 0));
+        arbol.agregarContacto(new Contacto("Maria Gomez", "Carrera 45", "maria@example.com", "3107654321", 0));
+        arbol.agregarContacto(new Contacto("Carlos Lopez", "Avenida 9", "carlos@example.com", "3159876543", 0));
+        arbol.agregarContacto(new Contacto("Ana Torres", "Calle 8", "ana@example.com", "3201239876", 0));
+        arbol.agregarContacto(new Contacto("Luis Ramírez", "Transversal 22", "luis@example.com", "3004567890", 0));
     }
     
     public void switchEditar(int opcion) {
@@ -237,7 +237,14 @@ public class Controlador {
     }
     
     public void contactosFavoritos() {
-        if (arbol.getListaContactos().isEmpty()) {
+        boolean a=false;
+        for (Contacto contacto : arbol.getListaContactos().values()) {
+            if (contacto.getCantLlamadas()>0) {
+                a =true;
+                break;
+            }
+        }
+        if (!a) {
             Ventana.mostrarMensaje("No se ha comunicado con ningún contacto hasta ahora.");
         } else {
             ArrayList<Contacto> contactosComparar = new ArrayList<>(arbol.getListaContactos().values());
@@ -254,8 +261,10 @@ public class Controlador {
             
             Ventana.mostrarMensaje("Tus contactos más frecuentes son: ");
             for (int k = 0; k < contactosComparar.size() && k < 3; k++) {
-                Ventana.mostrarMensaje("[" + (k + 1) + "] " + contactosComparar.get(k).getNombre()
+                if (contactosComparar.get(k).getCantLlamadas()>0) {
+                    Ventana.mostrarMensaje("[" + (k + 1) + "] " + contactosComparar.get(k).getNombre()
                         + " con un total de " + contactosComparar.get(k).getCantLlamadas() + " veces que te has comunicado.");
+                }
             }
         }
     }
