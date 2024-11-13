@@ -1,6 +1,7 @@
 package co.edu.konradlorenz.model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ArbolBinario {
 
@@ -63,7 +64,13 @@ public class ArbolBinario {
     }
 
     public Contacto buscarContactoNom(String nombre) {
-        return listaContactos.get(nombre);
+        for(Map.Entry<String, Contacto> entry : listaContactos.entrySet()){
+            Contacto contacto = entry.getValue();
+            if(contacto.getNombre().equalsIgnoreCase(nombre)){
+                return contacto;
+            }
+        }
+        return null;
     }
     
     public Contacto buscarContactoNum(String telefono){

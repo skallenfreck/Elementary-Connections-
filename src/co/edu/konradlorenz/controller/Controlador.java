@@ -26,7 +26,7 @@ public class Controlador {
                     mostrarContacto();
                     break;
                 case 4: // Buscar contacto
-                    buscarContacto();
+                    buscarContacto(opcion);
                     break;
                 case 5: // Llamar
                     realizarLlamada(opcion);
@@ -122,16 +122,41 @@ public class Controlador {
         }
     }
     
-    public void buscarContacto() {
+    public void buscarContacto(int opcion) {
         if (arbol.getListaContactos().isEmpty()) {
             Ventana.mostrarMensaje("No hay contactos para buscar.");
         } else {
-            String nombreBusqueda = Ventana.pedirString("Ingrese el nombre del contacto que desea buscar");
-            Contacto contactoBusqueda = arbol.buscarContactoNom(nombreBusqueda);
-            if (contactoBusqueda != null) {
-                Ventana.mostrarMensaje(contactoBusqueda.toString());
-            } else {
-                Ventana.mostrarMensaje("Contacto no encontrado.");
+            while(true){
+                opcion = Ventana.menuBusqueda();
+                switch(opcion){
+                    case 1:
+                        String nombreBusqueda = Ventana.pedirString("Ingrese el nombre del contacto que desea buscar: ");
+                        Contacto contactoBusqueda = arbol.buscarContactoNom(nombreBusqueda);
+                        if (contactoBusqueda != null) {
+                            Ventana.mostrarMensaje(contactoBusqueda.toString());
+                        } else {
+                            Ventana.mostrarMensaje("Contacto no encontrado.");
+                        }
+                        break;
+                    case 2:
+                        String telefono = Ventana.pedirString("Ingrese el telefono del contacto que desea buscar: ");
+                        Contacto contactoBusquedaNum = arbol.buscarContactoNum(telefono);
+                        if (contactoBusquedaNum != null) {
+                            Ventana.mostrarMensaje(contactoBusquedaNum.toString());
+                        }else{
+                            Ventana.mostrarMensaje("Contacto no encontrado.");
+                        }
+                        break;
+                    case 3:
+                        Ventana.mostrarMensaje("Saliendo del menú <><><>Buscar a un contacto<><><>");
+                        break;
+                    default:
+                        Ventana.mostrarMensaje("Opción invalida, intente otra vez.");
+                        break;
+                }
+                if(opcion == 3){
+                    break;
+                }
             }
         }
     }

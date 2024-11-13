@@ -47,7 +47,7 @@ public class Ventana {
     public static byte menuLlamada(){
         System.out.println("<><><><><><><><><><><><><><><><><><><><>"
                 + "\n<> 1. Llamar por nombre               <>"
-                + "\n<> 2. Llamar por número telefonico   <>"
+                + "\n<> 2. Llamar por numero telefonico    <>"
                 + "\n<> 3. Volver                          <>"
                 + "\n<><><><><><><><><><><><><><><><><><><><>");
         byte opcion= sc.nextByte();
@@ -57,10 +57,21 @@ public class Ventana {
     
     public static byte menuMensaje(){
         System.out.println("<><><><><><><><><><><><><><><><><><><><><><><><>"
-                + "\n<> 1. Enviar mensaje por nombre              <>"
-                + "\n<> 2. Enviar mensaje por número telefonico   <>"
-                + "\n<> 3. Volver                                 <>"
+                + "\n<> 1. Enviar mensaje por nombre               <>"
+                + "\n<> 2. Enviar mensaje por numero telefonico    <>"
+                + "\n<> 3. Volver                                  <>"
                 + "\n<><><><><><><><><><><><><><><><><><><><><><><><>");
+        byte opcion= sc.nextByte();
+        sc.nextLine();
+        return opcion;
+    }
+    
+    public static byte menuBusqueda(){
+        System.out.println("<><><><><><><><><><><><><><><><><><><><>"
+                + "\n<> 1. Buscar por nombre               <>"
+                + "\n<> 2. Buscar por numero telefonico    <>"
+                + "\n<> 3. Volver                          <>"
+                + "\n<><><><><><><><><><><><><><><><><><><><>");
         byte opcion= sc.nextByte();
         sc.nextLine();
         return opcion;
