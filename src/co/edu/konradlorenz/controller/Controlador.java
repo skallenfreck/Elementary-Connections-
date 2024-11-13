@@ -69,18 +69,22 @@ public class Controlador {
                         case 1: // Editar nombre
                             String nuevoNombre = Ventana.pedirString("Por favor ingrese el nuevo nombre del contacto: ");
                             arbol.editarNombre(contactoModificar, nuevoNombre);
+                            Ventana.mostrarMensaje("Nombre editado exitosamente");
                             break;
                         case 2: // Editar teléfono
                             String nuevoTelefono = Ventana.pedirString("Por favor ingrese el número telefónico del contacto: ");
                             arbol.editarTelefono(contactoModificar, nuevoTelefono);
+                            Ventana.mostrarMensaje("Telefono editado exitosamente");
                             break;
                         case 3: // Editar dirección
                             String nuevaDireccion = Ventana.pedirString("Por favor ingrese la nueva dirección del contacto: ");
                             arbol.editarDireccion(contactoModificar, nuevaDireccion);
+                            Ventana.mostrarMensaje("Direccion editado exitosamente");
                             break;
                         case 4: // Editar correo
                             String nuevoCorreo = Ventana.pedirString("Por favor ingrese el correo del contacto: ");
                             arbol.editarCorreo(contactoModificar, nuevoCorreo);
+                            Ventana.mostrarMensaje("Correo editado exitosamente");
                             break;
                         case 5: // Salir del menú de edición
                             Ventana.mostrarMensaje("Saliendo del menú <><><>Editar Contacto<><><>");
